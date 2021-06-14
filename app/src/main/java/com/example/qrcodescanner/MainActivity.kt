@@ -75,13 +75,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (::codescanner.isInitialized){
-            codescanner?.startPreview()
+            codescanner.startPreview()
         }
     }
 
     override fun onPause() {
         if(::codescanner.isInitialized){
-            codescanner?.releaseResources()
+            codescanner.releaseResources()
         }
         super.onPause()
     }

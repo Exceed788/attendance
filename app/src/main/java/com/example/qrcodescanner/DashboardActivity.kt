@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.content.Intent
 import android.widget.Button
 
- class MenuActivity : AppCompatActivity() {
+ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
+        setContentView(R.layout.activity_dashboard)
 
         val scanCode: Button = this.findViewById(R.id.scanCode)
 
@@ -23,6 +23,13 @@ import android.widget.Button
         generateCode.setOnClickListener{
             val generatorPage = Intent(this, GenerateCodeActivity::class.java)
             startActivity(generatorPage)
+        }
+
+        val addSubject : Button = this.findViewById(R.id.addSubject)
+
+        addSubject.setOnClickListener{
+            val addSubjectPage = Intent(this, AddSubjectActivity::class.java)
+            startActivity(addSubjectPage)
         }
 
 
