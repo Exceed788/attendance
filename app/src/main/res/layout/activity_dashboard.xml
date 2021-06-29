@@ -4,48 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background = "@color/teal_200"
+    android:background = "@color/bluewhitesmoke"
     tools:context=".DashboardActivity">
 
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:background="@color/bluewhitesmoke"
-        android:text="@string/dashboard"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.500"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/addSubject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_subject"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.500"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.185" />
-
-    <Button
-        android:id="@+id/takeAttendance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/take_attendance"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.500"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addSubject"
-        app:layout_constraintVertical_bias="0.050" />
 
     <Button
         android:id="@+id/scanCode"
@@ -54,20 +15,20 @@
         android:text="@string/scan_code"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.500"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/takeAttendance"
-        app:layout_constraintVertical_bias="0.050" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/generateCode"
+        android:id="@+id/getUserlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/generate_code"
+        android:text="@string/fetched_users"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scanCode"
-        app:layout_constraintVertical_bias="0.050" />
+        app:layout_constraintVertical_bias="0.15" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

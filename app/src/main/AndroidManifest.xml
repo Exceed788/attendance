@@ -5,6 +5,7 @@
     package="com.example.qrcodescanner">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         tools:replace="android:appComponentFactory"
@@ -27,7 +28,8 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".GenerateCodeActivity">
+
+        <activity android:name=".GetActivity">
 
         </activity>
 
