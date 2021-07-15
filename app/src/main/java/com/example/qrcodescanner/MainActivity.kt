@@ -1,33 +1,33 @@
 package com.example.qrcodescanner
 
 
+// for beep
+
+// for scanner
 import android.Manifest
 import android.content.Context
-
+import android.content.pm.PackageManager
+import android.media.RingtoneManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-
-
-// for beep
-import android.content.pm.PackageManager
-import android.media.RingtoneManager
-
-// for scanner
 import com.budiyev.android.codescanner.*
+import com.example.qrcodescanner.network.Student
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var codescanner: CodeScanner
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_DENIED){
@@ -56,33 +56,41 @@ class MainActivity : AppCompatActivity() {
         val success = "ID confirmed"
 
 
-        codescanner.decodeCallback = DecodeCallback {
-            runOnUiThread {
-                // get all students from server
-                val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-                viewModel.getStudents()
+        fun getStudentList(schoolID: String) {
 
-
-                val toFind = it.text
-                var found = false
-
-                // compare if scanned school ID exits in server database
-                viewModel.myResponseList.observe(this , {
-                    for (student in it) {
-                        if (toFind == student.schoolID)
-                            found = true
-                        break
+            val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+            var found = false
+            var counter = 0
+            viewModel.getStudents()
+            viewModel.myResponseStudents.observe(this, {
+                for(student in it) {
+                    counter++
+                    if (schoolID == student.schoolID) {
+                        found = true
+                        Toast.makeText(
+                            this ,
+                            "Scan Result: $success, $schoolID, $counter" ,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                })
-                    if (found) {
-                        beep(this)
-                        Toast.makeText(this , "Scan Result: $success, $toFind" , Toast.LENGTH_SHORT).show()
-                        found = false
-                    } else {
-                        Toast.makeText(this , "Scan Result: $error" , Toast.LENGTH_SHORT).show()
-                    }
+
+                }
+            })
+
+            if (!found) {
+                Toast.makeText(this , "Scan Result: $error" , Toast.LENGTH_SHORT).show()
             }
         }
+
+
+
+        codescanner.decodeCallback = DecodeCallback {
+            runOnUiThread {
+                beep(this)
+                getStudentList(it.text)
+            }
+        }
+
 
         codescanner.errorCallback = ErrorCallback {
             runOnUiThread{
