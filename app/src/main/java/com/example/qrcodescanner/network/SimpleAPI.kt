@@ -15,3 +15,13 @@ interface EventAPI{
     suspend fun getEvents() : List<Event>
 
 }
+interface PostAPI{
+
+    @GET("posts")
+    suspend fun getPosts() : List<Post>
+
+}
+
+
+
+
