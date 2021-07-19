@@ -19,7 +19,7 @@ class CustomSpinnerAdapter (context: Context , var myList: List<Post>) : BaseAda
         val view: View
         val vh: ItemHolder
         if (convertView == null) {
-            view = inflater.inflate(R.layout.custom_spinner_item, parent, false)
+            view = inflater.inflate(R.layout.spinner_item, parent, false)
             vh = ItemHolder(view)
             view?.tag = vh
         } else {
@@ -28,7 +28,6 @@ class CustomSpinnerAdapter (context: Context , var myList: List<Post>) : BaseAda
         }
         vh.postId.text = myList[position].toString()
         vh.postTitle.text = myList[position].title
-
         return view
     }
 

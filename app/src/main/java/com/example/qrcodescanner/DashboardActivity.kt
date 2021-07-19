@@ -7,52 +7,48 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
-import com.example.qrcodescanner.adapter.CustomSpinnerAdapter
-import com.example.qrcodescanner.network.Post
-import com.google.gson.Gson
+import androidx.lifecycle.ViewModelProvider
 
 
 class DashboardActivity : AppCompatActivity() {
+
+    private val listOfTitles = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
 
+
         val scanCode : Button = this.findViewById(R.id.scanCode)
-//        val getList : Button = this.findViewById(R.id.getData)
-//         scanCode.setOnClickListener {
-//             val fetchedDataPage = Intent(this , FetchedDataActivity::class.java)
-//             startActivity(fetchedDataPage)
-//         }
-
-
         scanCode.setOnClickListener {
             val scannerPage = Intent(this , MainActivity::class.java)
             startActivity(scannerPage)
-
-
-            val modelList : List<Post> = readFromAsset()
-            val customSpinner : Spinner = this.findViewById(R.id.customSpinner)
-
-            val customDropDownAdapter = CustomSpinnerAdapter(this , modelList)
-            customSpinner.adapter = customDropDownAdapter
         }
+
+        val getList : Button = this.findViewById(R.id.getData)
+         getList.setOnClickListener {
+             val fetchedDataPage = Intent(this , FetchedDataActivity::class.java)
+             startActivity(fetchedDataPage)
+         }
+        val titleSpinner : Spinner = this.findViewById(R.id.titleSpinner)
+
+        val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        viewModel.getPosts()
+        viewModel.myResponsePosts.observe(this, {
+            for (post in it )
+                 listOfTitles.add(post.id, post.title)
+        })
+
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOfTitles)
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        titleSpinner.adapter = aa
+        aa.notifyDataSetChanged()
+
+
     }
-
-    private fun readFromAsset() : List<Post> {
-        val fileName = "android_version.json"
-
-        val bufferReader = application.assets.open(fileName).bufferedReader()
-
-        val jsonString = bufferReader.use {
-            it.readText()
-        }
-        val gson = Gson()
-        return gson.fromJson(jsonString , Array<Post>::class.java).toList()
-        }
 }
-
 
 
 
