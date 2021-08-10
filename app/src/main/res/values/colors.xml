@@ -10,4 +10,6 @@
     <color name="whitesmoke">#F5F5F5</color>
     <color name="bluewhitesmoke">#B2C4D9</color>
     <color name="cyan">#BFE6FF</color>
+    <color name="darkgray">#A9A9A9</color>
+    <color name="lightblue">#7AD7F0</color>
 </resources>

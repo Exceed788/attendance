@@ -19,23 +19,20 @@ class FetchedDataActivity : AppCompatActivity() {
 
         setupRecyclerview()
 
+    }
+
+    private fun setupRecyclerview() {
+
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        val recyclerviewPosts : RecyclerView = this.findViewById(R.id.recyclerview_posts)
+
+        recyclerviewPosts.adapter = recyclerAdapter
+        recyclerviewPosts.layoutManager = LinearLayoutManager(this)
+
         viewModel.getPosts()
         viewModel.myResponsePosts.observe(this, {
             recyclerAdapter.setData(it)
         })
-
     }
-    private fun setupRecyclerview() {
-
-        val recyclerviewUsers : RecyclerView = this.findViewById(R.id.recyclerview_users)
-
-        recyclerviewUsers.adapter = recyclerAdapter
-        recyclerviewUsers.layoutManager = LinearLayoutManager(this)
-    }
-
-//
-
-
 
 }

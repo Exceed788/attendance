@@ -5,15 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.qrcodescanner.network.Event
 import com.example.qrcodescanner.network.Post
-import com.example.qrcodescanner.network.Student
 import com.example.qrcodescanner.network.SimpleNetwork
+import com.example.qrcodescanner.network.Student
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel : ViewModel() {
 
     val myResponseStudents : MutableLiveData<List<Student>> = MutableLiveData()
-    val myResponseEvents : MutableLiveData<List<Event>> = MutableLiveData()
     val myResponsePosts : MutableLiveData<List<Post>> = MutableLiveData()
+    val myResponseEvents : MutableLiveData<List<Event>> = MutableLiveData()
+
+//    private var myList = emptyList<Post>()
+
 
     fun getStudents() {
         viewModelScope.launch {
@@ -33,5 +36,6 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
-
 }
+
+

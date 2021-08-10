@@ -7,7 +7,7 @@ object SimpleNetwork {
 
     val retrofitStudent : StudentAPI by lazy {
         Retrofit.Builder()
-            .baseUrl("http://192.168.1.8:8000/generic/")
+            .baseUrl("http://192.168.1.8:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(StudentAPI::class.java)
@@ -15,7 +15,7 @@ object SimpleNetwork {
 
     val retrofitEvent : EventAPI by lazy {
         Retrofit.Builder()
-            .baseUrl("http://192.168.1.8:8000/generic/")
+            .baseUrl("http://192.168.1.8:8080/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(EventAPI::class.java)
@@ -28,5 +28,5 @@ object SimpleNetwork {
             .build()
             .create(PostAPI::class.java)
     }
-    
+
 }

@@ -10,9 +10,9 @@ import android.widget.TextView
 import com.example.qrcodescanner.R
 import com.example.qrcodescanner.network.Post
 
-class CustomSpinnerAdapter (context: Context , var myList: List<Post>) : BaseAdapter() {
+class CustomSpinnerAdapter(mContext : Context, private var myList : ArrayList<Post>) : BaseAdapter() {
 
-    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
@@ -26,7 +26,7 @@ class CustomSpinnerAdapter (context: Context , var myList: List<Post>) : BaseAda
             view = convertView
             vh = view.tag as ItemHolder
         }
-        vh.postId.text = myList[position].toString()
+        vh.postId.text = myList[position].id.toString()
         vh.postTitle.text = myList[position].title
         return view
     }
@@ -43,10 +43,9 @@ class CustomSpinnerAdapter (context: Context , var myList: List<Post>) : BaseAda
         return position.toLong()
     }
 
-
     private class ItemHolder(row: View?) {
         val postId: TextView = row?.findViewById(R.id.spinnerPostId) as TextView
         val postTitle : TextView = row?.findViewById(R.id.spinnerPostTitle) as TextView
+    }
 
-
-}}
+}

@@ -13,32 +13,47 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.*
-import com.example.qrcodescanner.network.Student
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var codescanner: CodeScanner
+    private var confirmedIds = arrayListOf<String>()
+    private var fetchedTitles = arrayListOf<String>()
+//    private val selectedEvent = intent.getStringExtra("message_key")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        getPostTitles()
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 123)
         } else {
             startScanning()
+
+
         }
 
     }
 
+    private fun getPostTitles() {
+        val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        viewModel.getPosts()
+        viewModel.myResponsePosts.observe(this , {
+            for (post in it) {
+                fetchedTitles.add(post.title)
+            }
+        })
+    }
+
     private fun startScanning() {
 
-        val scannerView: CodeScannerView = findViewById(R.id.scanner_view)
+        val scannerView: CodeScannerView = this.findViewById(R.id.scanner_view)
 
         codescanner = CodeScanner(this, scannerView)
         codescanner.camera = CodeScanner.CAMERA_BACK
@@ -50,41 +65,34 @@ class MainActivity : AppCompatActivity() {
         codescanner.isFlashEnabled = false
 
 
-        val error  = "Invalid ID"
-        val success = "ID confirmed"
+        Toast.makeText(this, "$fetchedTitles", Toast.LENGTH_LONG).show()
 
+        val error  = "Invalid ID "
+        val success = "ID confirmed and added"
 
         fun getStudentList(schoolID: String) {
 
-            val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-            var found = false
-            var counter = 0
-            viewModel.getStudents()
-            viewModel.myResponseStudents.observe(this, {
-                for(student in it) {
-                    counter++
-                    if (schoolID == student.schoolID) {
-                        found = true
-                        Toast.makeText(
-                            this ,
-                            "Scan Result: $success, $schoolID, $counter" ,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
+            if (!confirmedIds.contains(schoolID)) {
+                if (fetchedTitles.contains(schoolID)) {
+                    confirmedIds.add(schoolID)
+                    Toast.makeText(this , "Scan Result: $success" , Toast.LENGTH_SHORT).show()
                 }
-            })
+                else{
+                    Toast.makeText(this, "Scan Result: $error", Toast.LENGTH_SHORT).show()
+                }
 
-            if (!found) {
-                Toast.makeText(this , "Scan Result: $error" , Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Toast.makeText(
+                    this ,
+                    "ID already scanned" ,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
-
-
         codescanner.decodeCallback = DecodeCallback {
             runOnUiThread {
-                beep(this)
                 getStudentList(it.text)
             }
         }
